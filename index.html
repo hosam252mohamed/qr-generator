@@ -1,0 +1,107 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko" lang="ko">
+
+	<head>
+		<title>Cross-Browser QRCode generator for Javascript</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+		<script type="text/javascript" src="jquery.min.js"></script>
+		<script type="text/javascript" src="qrcode.min.js"></script>
+		<style>
+			:focus {
+				outline: none;
+			}
+
+			.container {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				padding: 20px;
+				max-width: 400px;
+				margin: 0 auto;
+			}
+
+			input {
+				width: 100%;
+				max-width: 100%;
+				padding: 10px;
+				font-size: 17px;
+				font-family: Verdana, Geneva, Tahoma, sans-serif;
+			}
+
+			h3 {
+				margin-top: 0;
+			}
+
+			#qrcode {
+				width: 200px;
+				max-width: 100%;
+			}
+
+			#qrcode img {
+				width: 100%;
+			}
+
+			.empty {
+				margin-top: 10px;
+			}
+
+			button {
+				padding: 10px 15px;
+				font-size: 17px;
+				background: #1976D2;
+				color: white;
+				border: none;
+				border-radius: 25px;
+				cursor: pointer;
+				transition: 0.3s;
+				margin-top: 10px;
+				margin-bottom: 20px;
+			}
+
+			button:hover {
+				background-color: #444;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="container">
+			<h3>Qr Code generator</h3>
+			<input id="text" type="text" />
+			<span class="empty"></span>
+			<button>Generate</button>
+			<div id="qrcode"></div>
+		</div>
+
+		<script type="text/javascript">
+			var container = document.querySelector(".container");
+			var emptyField = document.querySelector(".empty");
+
+			var qrcode = new QRCode(document.getElementById("qrcode"), {
+				width: 200,
+				height: 200,
+			});
+
+			function makeCode() {
+				var elText = document.getElementById("text");
+				emptyField.innerHTML = "";
+				if (!elText.value) {
+					emptyField.append(document.createTextNode("Please Add URL or Any Text"));
+					return;
+				}
+				qrcode.makeCode(elText.value);
+			}
+
+			$("#text").
+				on("keydown", function (e) {
+					if (e.keyCode == 13) {
+						makeCode();
+					}
+				});
+			$("button")[0].onclick = makeCode;
+		</script>
+	</body>
+
+</html>
